@@ -50,4 +50,4 @@ while True:
     name = BIRTHDAYS[tomorrowDate]
     postTomorrowBirthday(name, webhookUrl)
     
-  t.sleep(60)
+  t.sleep(86400)
