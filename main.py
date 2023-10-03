@@ -36,7 +36,7 @@ def postBirthday(name, webhookUrl, today=True):
 def postTomorrowBirthday(name, webhookUrl):
   postBirthday(name, webhookUrl, today=False)
   
-
+print("Started.")
 while True:
   currentDate = dt.datetime.now().strftime('%m/%d')
   
