@@ -47,9 +47,15 @@ while True:
   if currentDate in BIRTHDAYS:
     name = BIRTHDAYS[currentDate]
     postBirthday(name, webhookUrl, today=True)
+    print('Birthday Sent.')
     
   elif tomorrowDate in BIRTHDAYS:
     name = BIRTHDAYS[tomorrowDate]
     postTomorrowBirthday(name, webhookUrl)
-    
-  t.sleep(86400)
+    print('Birthday Sent.')
+  else:
+    print('No birthday...')
+  # loop waiting for 60 seconds each up until 24 hrs have passed
+  for heartbeat in range(1440):
+    print(f'{heartbeat+1}/1440 heartbeat sent at {dt.datetime.now()}')
+    t.sleep(60)
