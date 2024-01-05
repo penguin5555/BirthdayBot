@@ -1,6 +1,4 @@
 import requests as rq
-import os
-import subprocess
 import datetime as dt
 import time as t
 
@@ -36,7 +34,9 @@ def postBirthday(name, webhookUrl, today=True):
 
 def postTomorrowBirthday(name, webhookUrl):
   postBirthday(name, webhookUrl, today=False)
-  
+
+rq.post(webhookUrl, json={'content':'server starting'})
+
 print("Started.")
 while True:
   currentDate = dt.datetime.now().strftime('%m/%d')
@@ -48,7 +48,6 @@ while True:
     name = BIRTHDAYS[currentDate]
     postBirthday(name, webhookUrl, today=True)
     print('Birthday Sent.')
-    
   elif tomorrowDate in BIRTHDAYS:
     name = BIRTHDAYS[tomorrowDate]
     postTomorrowBirthday(name, webhookUrl)
