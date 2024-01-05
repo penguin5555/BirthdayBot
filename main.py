@@ -6,13 +6,16 @@ webhookUrl = 'https://discord.com/api/webhooks/1158867763620753551/c1BYtEOYVxGV5
 
 BIRTHDAYS = {
   '02/28':'Aarav',
-  '01/03':"Mama",
+  '01/03':'Mama',
   '03/23':'Baba',
   '03/24':'Aarohi',
   '10/09':'Jacob',
   '04/29':'Shruti',
   '09/09':'Anjani',
-  '07/27':'Nirvaan'
+  '07/27':'Nannu',
+  '04/30':'Ria',
+  '09/26':'Arushi',
+  '12/03':'Aarya',
 }
 
 def postBirthday(name, webhookUrl, today=True):
