@@ -16,6 +16,9 @@ BIRTHDAYS = {
   '04/30':'Ria',
   '09/26':'Arushi',
   '12/03':'Aarya',
+  '07/17':'Rucha Tai and Ruta Tai',
+  '11/14':'Rama Tai',
+  '08/13':'Riddhi Tai',
 }
 
 def postBirthday(name, webhookUrl, today=True):
