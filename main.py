@@ -36,10 +36,9 @@ def getNextBirthday(birthdays):
   birthdayDists.sort(key=lambda x: x[0])
 
   if not birthdayDists:
-    return sorted(birthdays)[0]
+    return f'name: {BIRTHDAYS[sorted(birthdays)[0]]}, date: {sorted(birthdays)[0]}, days until: {(dt.datetime.strptime(f"{sorted(birthdays)[0]}/{dt.datetime.now().year+1}", "%m/%d/%Y")-todayDate).days}'
   
-  return birthdayDists[0][1]
-
+  return f'name: {BIRTHDAYS[birthdayDists[0][1]]}, date: {birthdayDists[0][1]}, days until: {birthdayDists[0][0]}'
 
 def postBirthday(name, webhookUrl, today=True):
   if today:
@@ -55,7 +54,7 @@ def postBirthday(name, webhookUrl, today=True):
 
 def postTomorrowBirthday(name, webhookUrl):
   postBirthday(name, webhookUrl, today=False)
-
+ 
 rq.post(webhookUrl, json={'content':'server starting'})
 
 while True:
