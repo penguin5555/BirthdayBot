@@ -3,6 +3,7 @@ import datetime as dt
 import time as t
 
 webhookUrl = 'https://discord.com/api/webhooks/1158867763620753551/c1BYtEOYVxGV5tiTnj7KPdT0KxX1_pvKjnOCPh3cwThU-cNPqtQc8N_KZzvUN1hBjzop'
+nextBirthdayWebhookUrl = 'https://discord.com/api/webhooks/1193010830841741383/TV1iCUsYTWL7KC8TnXXIJn_Fj0fYfJKNLfXgMn6ShwdLjK75KQiWmvyg51VtpLz_YyZy'
 
 BIRTHDAYS = {
   '02/28':'Aarav',
@@ -21,6 +22,25 @@ BIRTHDAYS = {
   '08/13':'Riddhi Tai',
 }
 
+def getNextBirthday(birthdays):
+  todayDate = dt.datetime.now().strftime('%m/%d')
+  todayDate = dt.datetime.strptime(f'{todayDate}/{dt.datetime.now().year}', '%m/%d/%Y')
+
+  birthdayDists = []
+
+  for date in birthdays:
+    curBirthdayDateCheck = dt.datetime.strptime(f'{date}/{dt.datetime.now().year}', '%m/%d/%Y')
+    dateDistanceInDays = (curBirthdayDateCheck-todayDate).days
+    if dateDistanceInDays > 0:
+      birthdayDists.append((dateDistanceInDays, date))
+  birthdayDists.sort(key=lambda x: x[0])
+
+  if not birthdayDists:
+    return sorted(birthdays)[0]
+  
+  return birthdayDists[0][1]
+
+
 def postBirthday(name, webhookUrl, today=True):
   if today:
     payload = {
@@ -31,19 +51,13 @@ def postBirthday(name, webhookUrl, today=True):
       'content' : f"@everyone Upcoming Birthday Reminder!\n\nIt is {name}'s Birthday Tomorrow!"
     }
     
-  response = rq.post(webhookUrl, json=payload)
-  
-  if response.status_code == 204:
-    print("Success!")
-  else:
-    print("Error Sending Message!")
+  rq.post(webhookUrl, json=payload)
 
 def postTomorrowBirthday(name, webhookUrl):
   postBirthday(name, webhookUrl, today=False)
 
 rq.post(webhookUrl, json={'content':'server starting'})
 
-print("Started.")
 while True:
   currentDate = dt.datetime.now().strftime('%m/%d')
   
@@ -53,14 +67,13 @@ while True:
   if currentDate in BIRTHDAYS:
     name = BIRTHDAYS[currentDate]
     postBirthday(name, webhookUrl, today=True)
-    print('Birthday Sent.')
+
   elif tomorrowDate in BIRTHDAYS:
     name = BIRTHDAYS[tomorrowDate]
     postTomorrowBirthday(name, webhookUrl)
-    print('Birthday Sent.')
-  else:
-    print('No birthday...')
+
   # loop waiting for 60 seconds each up until 24 hrs have passed
   for heartbeat in range(1440):
-    print(f'{heartbeat+1}/1440 heartbeat sent at {dt.datetime.now()}')
+    # would print the heartbeat but it takes up log storage (bad)
+    rq.post(nextBirthdayWebhookUrl, json={'content':getNextBirthday(birthdays=BIRTHDAYS)})
     t.sleep(60)
